@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    if (localStorage.getItem("darkMode") === "true") {
+      document.documentElement.classList.add("dark-mode");
+      document.body?.classList?.add("dark-mode");
+    }
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secodian</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="/static/css/login.css">
+  <link rel="stylesheet" href="/static/css/socials.css">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
+    :root {
+      --bg-color: #f2f4f8;
+      --text-color: #333;
+      --container-bg: #fff;
+      --result-bg: #f9f9f9;
+      --pre-bg: #f4f4f4;
+      --border-color: #ccc;
+      --highlight: #0077cc;
+      --ai-bg: #eef;
+    }
+
+    body.dark-mode {
+      --bg-color: #1e1e2f;
+      --text-color: #eee;
+      --container-bg: #2a2a40;
+      --result-bg: #333952;
+      --pre-bg: #1e1e2f;
+      --border-color: #555;
+      --highlight: #4db8ff;
+      --ai-bg: #2d3559;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Segoe UI', sans-serif;
+      padding: 40px 0;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .container {
+      max-width: 1500px;
+      margin-left: 530px ;
+      margin-top: 120px ;
+      background: var(--container-bg);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .secodian-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3.5rem;
+      letter-spacing: 0.25rem;
+      text-align: center;
+      transition: all 0.3s ease-in-out;
+      margin-bottom: 30px;
+    }
+.secodian-title::after {
+  content: "";
+  display: block;
+  margin: 10px auto 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #00f0ff, #0077ff);
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.6),
+              0 0 16px rgba(0, 119, 255, 0.5);
+  border-radius: 2px;
+}
+    
+    form {
+      margin-bottom: 30px;
+    }
+
+    input[type="file"], input[type="text"], input[type="password"], textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 1em;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: var(--pre-bg);
+      color: var(--text-color);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 150px;
+    }
+
+    .button {
+      background: var(--highlight);
+      color: rgb(247, 244, 244);
+      border: none;
+      padding: 12px 25px;
+      font-size: 1em;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+      display: inline-block;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .results {
+      background: var(--result-bg);
+      border-left: 5px solid var(--highlight);
+      padding: 25px;
+      border-radius: 10px;
+      margin-top: 30px;
+      margin-left: 150px;
+      margin-right: 150px;
+    }
+
+    pre {
+      background: var(--pre-bg);
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+
+    .status-clean { color: limegreen; }
+    .status-issues { color: tomato; }
+
+    canvas {
+      max-width: 400px;
+      max-height: 300px;
+      margin: 20px auto;
+      display: block;
+    }
+
+    .ai-suggestion-section {
+      background: var(--ai-bg);
+      padding: 15px;
+      border-left: 5px solid #66f;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      max-width: 750px;
+      margin-left: 150px ;
+      margin-right: 20px;
+    }
+
+    .ai-suggestion-section b {
+      display: block;
+      margin-top: 15px;
+    }
+
+    #mode-toggle {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      background: var(--highlight);
+      color: rgb(79, 76, 99);
+      border: none;
+      border-radius: 20px;
+      padding: 10px 18px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .social-bar {
+      position: fixed;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      z-index: 999;
+    }
+
+    .social-icon {
+      width: 38px;
+      height: 38px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      transition: transform 0.3s ease;
+      border-radius: 8px;
+    }
+
+    .social-icon:hover {
+      transform: scale(1.1);
+    }
+
+    .social-icon.instagram {
+      background-image: url('https://cdn-icons-png.flaticon.com/512/2111/2111463.png');
+    }
+
+    .social-icon.twitter {
+      background-image: url('https://cdn-icons-png.flaticon.com/512/733/733579.png');
+    }
+
+    .social-icon.linkedin {
+      background-image: url('https://cdn-icons-png.flaticon.com/512/174/174857.png');
+    }
+
+    .social-icon.whatsapp {
+      background-image: url('https://cdn-icons-png.flaticon.com/512/733/733585.png');
+    }
+
+    .nav-link-history {
+      position: absolute;
+      top: 40px;
+      right: 160px;
+      font-weight: bold;
+      font-size: 0.9em;
+      background: transparent;
+      color: var(--highlight);
+      text-decoration: underline;
+      border: none;
+      cursor: pointer;
+    }
+
+   .history-button {
+  display: block;
+  width: fit-content;
+  margin-left: 2360px; 
+  padding: 10px 10px;
+  background-color: #0077cc;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s;
+  text-align: right;
+}
+
+
+    .history-button:hover {
+      background-color: #005fa3;
+    }
+    
+   .title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.logo-icon {
+  height: 120px;
+  width: auto;
+  filter: drop-shadow(0 0 6px #00ffff);
+}
+
+.secodian-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3.5rem;
+  letter-spacing: 0.25rem;
+  margin: 0;
+  font-weight: 700;
+  text-align: center;
+  background: linear-gradient(90deg, #00f0ff, #0077ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.5),
+               0 0 16px rgba(0, 119, 255, 0.4);
+  animation: glowPulse 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes glowPulse {
+  from {
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.5),
+                 0 0 16px rgba(0, 119, 255, 0.4);
+  }
+  to {
+    text-shadow: 0 0 12px rgba(0, 255, 255, 0.9),
+                 0 0 24px rgba(0, 119, 255, 0.8);
+  }
+}
+
+
+
+#mode-toggle {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  background: var(--highlight);
+  color: white !important;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 18px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+.site-footer {
+  width: 100vw;
+  margin: 0;
+  padding: 15px 0;
+  margin-top: 550px;
+  border-top: 3px solid var(--highlight);
+  background-color: var(--container-bg);
+  text-align: center;
+  position: relative;
+  left: 0;
+  box-sizing: border-box;
+}
+
+.footer-links {
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.footer-links a {
+  color: var(--highlight);
+  margin: 0 10px;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #00f0ff;
+}
+
+.footer-links span {
+  color: var(--highlight);
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrapper {
+  flex: 1;
+}
+
+  </style>
+</head>
+
+<body>
+  <script>
+    if (localStorage.getItem("darkMode") === "true") {
+      document.body.classList.add("dark-mode");
+    }
+  </script>
+  <div class="content-wrapper">
+<div class="title-wrapper">
+  <img src="{{ url_for('static', filename='images/ChatGPT_Image_Jun_3__2025__08_28_02_PM-removebg-preview.png') }}" alt="Secodian Logo" class="logo-icon">
+  <h1 class="secodian-title">SECODIAN</h1>
+</div>
+
+
+<button id="mode-toggle">🌙 Dark Mode</button>
+
+
+  {% if current_user.is_authenticated %}
+    <form action="{{ url_for('logout') }}" method="POST" style="position: absolute; top: 20px; left: 30px;">
+      <button class="button" style="background: crimson; padding: 6px 14px; font-size: 0.85em;">Logout</button>
+    </form>
+    <a href="{{ url_for('history') }}" class="history-button" style="position: absolute; top: 60px; left: 30px;">📜 Scan History</a>
+  {% else %}
+    <a href="{{ url_for('login_page') }}" class="button" style="position: absolute; top: 20px; left: 30px;">🔐 Login</a>
+  {% endif %}
+
+  <div class="social-bar">
+    <a href="https://www.instagram.com/secodianai/" target="_blank" class="social-icon instagram"></a>
+    <a href="https://x.com/secodianai" target="_blank" class="social-icon twitter"></a>
+    <a href="www.linkedin.com/in/secodian" target="_blank" class="social-icon linkedin"></a>
+   
+  </div>
+
+  <div class="container">
+  
+
+    {% if current_user.is_authenticated %}
+  <form action="/scan" method="POST" enctype="multipart/form-data" id="scan-form">
+    <label>📁 Upload File:</label>
+    <input type="file" name="file" />
+    <label>🔍 Or Paste Code:</label>
+    <textarea name="code" placeholder="Paste your code here (optional)..."></textarea>
+    <button class="button" type="submit">Scan</button>
+    <div id="progress-bar-container" style="display: none; margin-top: 15px;">
+      <div style="background: #ccc; border-radius: 6px; overflow: hidden;">
+        <div id="progress-bar" style="width: 0%; height: 12px; background: var(--highlight); transition: width 0.4s;"></div>
+      </div>
+      <p style="margin-top: 5px; font-size: 0.9em;">⏳ Scanning in progress...</p>
+    </div>
+  </form>
+{% else %}
+  {% if login_page %}
+    <!-- 🔐 Login Form -->
+    <div class="wrapper">
+      <div class="card-switch">
+        <div class="flip-card__front">
+          <div class="title">Log in</div>
+          <form action="{{ url_for('login') }}" method="POST" class="flip-card__form">
+            <input type="text" placeholder="Username" name="username" class="flip-card__input" required>
+            <input type="password" placeholder="Password" name="password" class="flip-card__input" required>
+            <label style="font-size: 0.85em; margin-top: 8px;">
+              <input type="checkbox" name="remember" style="margin-right: 6px;" />
+              Remember Me
+            </label>
+            <button class="flip-card__btn">Let's go!</button>
+          </form>
+          <p style="margin-top: 15px;">Don't have an account? <a href="{{ url_for('register_page') }}">Register</a></p>
+        </div>
+      </div>
+    </div>
+
+  {% elif register_page %}
+    <!-- 📝 Register Form -->
+    <div class="wrapper">
+      <div class="card-switch">
+        <div class="flip-card__back">
+          <div class="title">Sign up</div>
+          <form action="{{ url_for('register') }}" method="POST" class="flip-card__form">
+            <input type="text" placeholder="Username" name="username" class="flip-card__input" required>
+            <input type="password" placeholder="Password" name="password" class="flip-card__input" required>
+            <button class="flip-card__btn">Confirm!</button>
+          </form>
+          <p style="margin-top: 15px;">Already have an account? <a href="{{ url_for('login_page') }}">Login</a></p>
+        </div>
+      </div>
+    </div>
+    </div>
+
+  {% else %}
+    <p style="text-align: center; font-size: 1.1em;">Please <a href="{{ url_for('login_page') }}">log in</a> to begin scanning your code.</p>
+  {% endif %}
+{% endif %}
+
+{% if error %}
+  <div class="results">
+    <p class="status-issues"><strong>{{ error }}</strong></p>
+  </div>
+{% endif %}
+
+    {% if results %}
+    <div class="results">
+      <h2>📁 Results for <code>{{ filename }}</code></h2>
+      <p><b>🛠 Tool:</b> {{ results.tool }}</p>
+      <p><b>📊 Status:</b>
+        {% if results.status == 'clean' %}
+          <span class="status-clean">✅ Clean</span>
+        {% else %}
+          <span class="status-issues">❌ Issues Found</span>
+        {% endif %}
+      </p>
+      <h3>📈 Risk Score: {{ results.risk_score }}/10</h3>
+      <h3>📄 Raw Output</h3>
+      <pre>{{ results.raw_output }}</pre>
+      <h3>🧐 AI Suggestion</h3>
+      <div class="ai-suggestion-section" id="ai-suggestion-box">
+        {{ results.ai_suggestion | safe }}
+      </div>
+      <h3>📊 Risk Score Breakdown</h3>
+      <canvas id="pieChart"></canvas>
+    </div>
+    {% endif %}
+  </div>
+
+  {% if results %}
+  <script>
+    const score = {{ results.risk_score }};
+    const clean = 10 - score;
+    const color = score >= 7 ? 'red' : (score >= 4 ? 'orange' : 'green');
+    new Chart(document.getElementById('pieChart').getContext('2d'), {
+      type: 'pie',
+      data: {
+        labels: ['Risk Score', 'Remaining'],
+        datasets: [{ data: [score, clean], backgroundColor: [color, '#e0e0e0'] }]
+      },
+      options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    });
+    document.getElementById("ai-suggestion-box").innerHTML = document.getElementById("ai-suggestion-box").innerHTML.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+  </script>
+  {% endif %}
+
+  <script>
+    const toggle = document.getElementById("mode-toggle");
+    const body = document.body;
+    function applyMode(dark) {
+      body.classList.toggle("dark-mode", dark);
+      toggle.textContent = dark ? "🌞 Light Mode" : "🌙 Dark Mode";
+      localStorage.setItem("darkMode", dark);
+    }
+    toggle.onclick = () => applyMode(!body.classList.contains("dark-mode"));
+
+    const scanForm = document.getElementById("scan-form");
+    const progressBar = document.getElementById("progress-bar");
+    if (scanForm) {
+      scanForm.addEventListener("submit", () => {
+        document.getElementById("progress-bar-container").style.display = "block";
+        let progress = 10;
+        progressBar.style.width = "10%";
+        const interval = setInterval(() => {
+          if (progress < 90) {
+            progress += 10;
+            progressBar.style.width = progress + "%";
+          } else {
+            clearInterval(interval);
+          }
+        }, 400);
+      });
+    }
+  </script>
+ <footer class="site-footer">
+  <div class="footer-links">
+    <a href="{{ url_for('policies') }}">📃 Policies</a>
+    <span>|</span>
+    <a href="{{ url_for('contact') }}">📧 Contact Us</a>
+    <span>|</span>
+    <a href="{{ url_for('advertise') }}">📢 Advertise</a>
+  </div>
+</footer>
+
+  </div>
+</footer>
+</body>
+</html>

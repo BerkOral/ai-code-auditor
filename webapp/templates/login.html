@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+  if (localStorage.getItem("darkMode") === "true") {
+    document.documentElement.classList.add("dark-mode");
+    document.body?.classList?.add("dark-mode");
+  }
+</script>
+<div class="title-wrapper">
+  <img src="{{ url_for('static', filename='images/ChatGPT_Image_Jun_3__2025__08_28_02_PM-removebg-preview.png') }}" alt="Secodian Logo" class="logo-icon">
+  <h1 class="main-title">Secodian</h1>
+</div>
+
+  <title>Login</title>
+  <link rel="stylesheet" href="/static/css/login.css" />
+</head>
+<script>
+  if (localStorage.getItem("darkMode") === "true") {
+    document.body.classList.add("dark-mode");
+  }
+</script>
+
+<body class="dark-mode">
+  <div class="wrapper" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <div class="flip-card__front">
+      <div class="title">Log in</div>
+      <form action="{{ url_for('login') }}" method="POST" class="flip-card__form">
+        <input type="text" placeholder="Username" name="username" class="flip-card__input">
+        <input type="password" placeholder="Password" name="password" class="flip-card__input">
+        <button class="flip-card__btn">Log in</button>
+      </form>
+      <div style="margin-top: 20px; text-align: center;">
+        <p>Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,2 @@
+.env
+__pycache__/# Dependencies  node_modules/  venv/  env/  __pycache__/  *.pyc  # Build outputs  dist/  build/  *.egg-info/  # Environment variables  .env  .env.local  # Logs  *.log  logs/  # OS files  .DS_Store  Thumbs.db 

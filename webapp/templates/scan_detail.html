@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>🔍 Scan Result Detail</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Apply dark mode before anything renders -->
+  <script>
+    if (localStorage.getItem("darkMode") === "true") {
+      document.documentElement.classList.add("dark-mode");
+    }
+  </script>
+
+  <!-- External styles -->
+  <link rel="stylesheet" href="/static/css/login.css">
+  <link rel="stylesheet" href="/static/css/socials.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --bg-color: #f2f4f8;
+      --text-color: #333;
+      --container-bg: #fff;
+      --box-bg: #f4f4f4;
+      --highlight: #0077cc;
+    }
+
+    .dark-mode {
+      --bg-color: #1e1e2f;
+      --text-color: #eee;
+      --container-bg: #2a2a40;
+      --box-bg: #3a3a55;
+      --highlight: #4db8ff;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Segoe UI', sans-serif;
+      padding: 40px;
+      margin: 0;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .title-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .logo-icon {
+      height: 120px;
+      width: auto;
+      filter: drop-shadow(0 0 6px #00ffff);
+    }
+
+   .secodian-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3.5rem;
+  letter-spacing: 0.25rem;
+  margin: 0;
+  font-weight: 700;
+  text-align: center;
+  background: linear-gradient(90deg, #00f0ff, #0077ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.5),
+               0 0 16px rgba(0, 119, 255, 0.4);
+  animation: glowPulse 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes glowPulse {
+  from {
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.5),
+                 0 0 16px rgba(0, 119, 255, 0.4);
+  }
+  to {
+    text-shadow: 0 0 12px rgba(0, 255, 255, 0.9),
+                 0 0 24px rgba(0, 119, 255, 0.8);
+  }
+}
+.secodian-title::after {
+  content: "";
+  display: block;
+  margin: 10px auto 0;
+  width: 10 0%;
+  height: 2px;
+  background: linear-gradient(90deg, #00f0ff, #0077ff);
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.6),
+              0 0 16px rgba(0, 119, 255, 0.5);
+  border-radius: 2px;
+}
+
+/* 🔁 Smooth glowing animation */
+@keyframes glowPulse {
+  from {
+    text-shadow:
+      0 0 4px rgba(0, 255, 255, 0.4),
+      0 0 8px rgba(0, 119, 255, 0.3),
+      0 0 12px rgba(0, 119, 255, 0.2);
+  }
+  to {
+    text-shadow:
+      0 0 6px rgba(0, 255, 255, 0.6),
+      0 0 12px rgba(0, 119, 255, 0.5),
+      0 0 18px rgba(0, 119, 255, 0.3);
+  }
+}
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: var(--container-bg);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1, h2 {
+      color: var(--highlight);
+    }
+
+    .back-button {
+      background: var(--highlight);
+      color: white;
+      padding: 10px 20px;
+      font-weight: 600;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: 0.3s;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .back-button:hover {
+      background: #005fa3;
+    }
+
+    pre {
+      background: var(--box-bg);
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+
+    .ai-suggestion {
+      background: var(--box-bg);
+      padding: 15px;
+      border-left: 5px solid var(--highlight);
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+
+    canvas {
+      max-width: 400px;
+      max-height: 300px;
+      margin: 30px auto;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="title-wrapper">
+    <img src="{{ url_for('static', filename='images/ChatGPT_Image_Jun_3__2025__08_28_02_PM-removebg-preview.png') }}" alt="Secodian Logo" class="logo-icon">
+    <h1 class="secodian-title">SECODIAN</h1>
+  </div>
+
+  <div class="container">
+    <a href="{{ url_for('history') }}" class="back-button">⬅ Back to History</a>
+    <h1>📂 Results for {{ scan.filename.split('_', 1)[1] if '_' in scan.filename else scan.filename }}</h1>
+
+    <p><strong>Tool:</strong> {{ scan.tool }}</p>
+    <p><strong>Status:</strong> {{ scan.status }}</p>
+    <p><strong>Risk Score:</strong> {{ scan.risk_score }}/10</p>
+    <p><strong>Date:</strong>
+      {% if scan.timestamp.__class__.__name__ == 'str' %}
+        {{ scan.timestamp }}
+      {% else %}
+        {{ scan.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
+      {% endif %}
+    </p>
+
+    <h2>🧐 AI Suggestion</h2>
+    <div class="ai-suggestion" id="ai-box">
+      {{ scan.ai_suggestion | safe }}
+    </div>
+
+    <h2>📄 Raw Output</h2>
+    <pre>{{ scan.raw_output }}</pre>
+
+    <h2>📊 Risk Score Breakdown</h2>
+    <canvas id="riskPieChart"></canvas>
+  </div>
+
+  <script>
+    const score = {{ scan.risk_score }};
+    const clean = 10 - score;
+    const color = score >= 7 ? 'red' : (score >= 4 ? 'orange' : 'green');
+
+    new Chart(document.getElementById('riskPieChart').getContext('2d'), {
+      type: 'pie',
+      data: {
+        labels: ['Risk Score', 'Remaining'],
+        datasets: [{
+          data: [score, clean],
+          backgroundColor: [color, '#e0e0e0']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' }
+        }
+      }
+    });
+
+    document.getElementById("ai-box").innerHTML = document.getElementById("ai-box").innerHTML
+      .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+      .replace(/\n/g, '<br>');
+  </script>
+</body>
+</html>
