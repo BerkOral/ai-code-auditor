@@ -1,11 +1,11 @@
-werkzeug
 Flask
-flask_sqlalchemy
-flask_login
+Flask_SQLAlchemy
+Flask_Login
+Flask_Migrate
 openai
 python-dotenv
 rich
 gunicorn
-Flask-Migrate
+bandit
 
 
