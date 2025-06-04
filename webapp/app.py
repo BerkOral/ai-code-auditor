@@ -7,6 +7,8 @@ load_dotenv()
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+migrate = Migrate(app, db)
 from flask_login import (
     LoginManager, login_user, logout_user, login_required,
     UserMixin, current_user
@@ -44,6 +46,7 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
 with app.app_context():
+    db.drop_all()
     db.create_all()
 
 @login_manager.user_loader
