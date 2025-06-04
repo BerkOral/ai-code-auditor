@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advertise - Secodian</title>
+  <link rel="stylesheet" href="/static/css/login.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
+    :root {
+      --bg-color: #f2f4f8;
+      --text-color: #333;
+      --highlight: #0077cc;
+    }
+
+    body.dark-mode {
+      --bg-color: #1e1e2f;
+      --text-color: #eee;
+      --highlight: #4db8ff;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Segoe UI', sans-serif;
+      padding: 40px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .title-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .logo-icon {
+      height: 100px;
+      filter: drop-shadow(0 0 6px #00ffff);
+    }
+
+    .secodian-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem;
+      letter-spacing: 0.25rem;
+      font-weight: 700;
+      text-align: center;
+      background: linear-gradient(90deg, #00f0ff, #0077ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      text-shadow: 0 0 8px rgba(0, 255, 255, 0.5),
+                   0 0 16px rgba(0, 119, 255, 0.4);
+      animation: glowPulse 2.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowPulse {
+      from {
+        text-shadow: 0 0 8px rgba(0, 255, 255, 0.5),
+                     0 0 16px rgba(0, 119, 255, 0.4);
+      }
+      to {
+        text-shadow: 0 0 12px rgba(0, 255, 255, 0.9),
+                     0 0 24px rgba(0, 119, 255, 0.8);
+      }
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      font-size: 1.1em;
+      line-height: 1.6;
+    }
+
+    .back-button {
+  display: inline-block;
+  margin-top: 20px;
+  background: #0077cc; /* Blue background */
+  color: white; /* White text */
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s;
+  border: none;
+}
+
+.back-button:hover {
+  background: #005fa3; /* Darker blue on hover */
+}
+
+    .content a {
+      color: var(--highlight);
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .content a:hover {
+      color: #00f0ff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    if (localStorage.getItem("darkMode") === "true") {
+      document.body.classList.add("dark-mode");
+    }
+  </script>
+
+  <div class="title-wrapper">
+    <img src="{{ url_for('static', filename='images/ChatGPT_Image_Jun_3__2025__08_28_02_PM-removebg-preview.png') }}" alt="Secodian Logo" class="logo-icon">
+    <h1 class="secodian-title">SECODIAN</h1>
+  </div>
+
+  <div class="content">
+    <h2>Advertise With Us</h2>
+    <p>
+      Looking to reach cybersecurity professionals, developers, and businesses interested in code auditing tools? Advertise on Secodian!
+    </p>
+
+    <p>
+      We offer banner placements, sponsored content, and strategic partnerships. Our platform serves a tech-savvy, security-focused audience, making it the perfect place to showcase your product or service.
+    </p>
+
+    <p>
+  📩 <strong>Email:</strong> <a href="mailto:support@secodian.com">support@secodian.com</a>
+</p>
+
+    <p>
+      We’ll get back to you within 24–48 hours. Please include relevant details like campaign goals, budget, and duration.
+    </p>
+
+    <a href="{{ url_for('index') }}" class="back-button">⬅ Back to Home</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>📜 Scan History</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/static/css/login.css">
+  <link rel="stylesheet" href="/static/css/socials.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    if (localStorage.getItem("darkMode") === "true") {
+      document.documentElement.classList.add("dark-mode");
+      document.body?.classList?.add("dark-mode");
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg-color: #f2f4f8;
+      --text-color: #333;
+      --container-bg: #fff;
+      --item-bg: #f9f9f9;
+      --border-color: #ccc;
+      --highlight: #0077cc;
+    }
+
+    .dark-mode {
+      --bg-color: #1e1e2f;
+      --text-color: #eee;
+      --container-bg: #2a2a40;
+      --item-bg: #333952;
+      --border-color: #555;
+      --highlight: #4db8ff;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Segoe UI', sans-serif;
+      padding: 40px;
+      margin: 0;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .title-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .logo-icon {
+      height: 120px;
+      width: auto;
+      filter: drop-shadow(0 0 6px #00ffff);
+    }
+
+    .secodian-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3.5rem;
+  letter-spacing: 0.25rem;
+  margin: 0;
+  font-weight: 700;
+  text-align: center;
+  background: linear-gradient(90deg, #00f0ff, #0077ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.5),
+               0 0 16px rgba(0, 119, 255, 0.4);
+  animation: glowPulse 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes glowPulse {
+  from {
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.5),
+                 0 0 16px rgba(0, 119, 255, 0.4);
+  }
+  to {
+    text-shadow: 0 0 12px rgba(0, 255, 255, 0.9),
+                 0 0 24px rgba(0, 119, 255, 0.8);
+  }
+}
+.secodian-title::after {
+  content: "";
+  display: block;
+  margin: 10px auto 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #00f0ff, #0077ff);
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.6),
+              0 0 16px rgba(0, 119, 255, 0.5);
+  border-radius: 2px;
+}
+
+/* 🔁 Smooth glowing animation */
+@keyframes glowPulse {
+  from {
+    text-shadow:
+      0 0 4px rgba(0, 255, 255, 0.4),
+      0 0 8px rgba(0, 119, 255, 0.3),
+      0 0 12px rgba(0, 119, 255, 0.2);
+  }
+  to {
+    text-shadow:
+      0 0 6px rgba(0, 255, 255, 0.6),
+      0 0 12px rgba(0, 119, 255, 0.5),
+      0 0 18px rgba(0, 119, 255, 0.3);
+  }
+}
+
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: var(--container-bg);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: var(--highlight);
+      margin-bottom: 25px;
+    }
+
+    .scan-item {
+  background: var(--item-bg);
+  padding: 18px;
+  margin-bottom: 15px;
+  border-left: 5px solid var(--highlight);
+  border-radius: 8px;
+  transition: background 0.3s ease;
+  text-decoration: none;
+  display: block;
+  color: var(--text-color); /* Explicit text color */
+}
+
+    .scan-item:hover {
+      background: var(--highlight);
+      color: white;
+    }
+
+    .scan-item strong {
+      display: block;
+      font-size: 1.05em;
+      margin-bottom: 8px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: var(--highlight);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .empty-msg {
+      text-align: center;
+      font-style: italic;
+      margin-top: 40px;
+    }
+   
+
+  </style>
+</head>
+
+<body>
+  <script>
+    if (localStorage.getItem("darkMode") === "true") {
+      document.body.classList.add("dark-mode");
+    }
+  </script>
+
+  <div class="title-wrapper">
+    <img src="{{ url_for('static', filename='images/ChatGPT_Image_Jun_3__2025__08_28_02_PM-removebg-preview.png') }}" alt="Secodian Logo" class="logo-icon">
+    <h1 class="secodian-title">SECODIAN</h1>
+  </div>
+
+  <div class="container">
+    <h2>📜 Your Scan History</h2>
+    <a href="{{ url_for('index') }}" class="back-link">← Back to Home</a>
+
+    {% if scans %}
+      {% for scan in scans %}
+        <a class="scan-item" href="{{ url_for('view_scan', filename=scan.scan_file) }}">
+          <strong>{{ scan.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</strong>
+          <p><b>File:</b> {{ scan.filename.split('_', 1)[1] }}</p>
+          <p><b>Tool:</b> {{ scan.tool }} &nbsp; | &nbsp; <b>Risk Score:</b> {{ scan.risk_score }}/10 &nbsp; | &nbsp; <b>Status:</b> {{ scan.status|capitalize }}</p>
+        </a>
+      {% endfor %}
+    {% else %}
+      <p class="empty-msg">No scans found yet. Start by uploading a file or pasting code.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

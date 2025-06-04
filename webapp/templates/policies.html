@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Policies - Secodian</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+  <script>
+    if (localStorage.getItem("darkMode") === "true") {
+      document.documentElement.classList.add("dark-mode");
+      document.body?.classList?.add("dark-mode");
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
+    :root {
+      --bg-color: #f2f4f8;
+      --text-color: #333;
+      --container-bg: #fff;
+      --highlight: #0077cc;
+    }
+
+    body.dark-mode {
+      --bg-color: #1e1e2f;
+      --text-color: #eee;
+      --container-bg: #2a2a40;
+      --highlight: #4db8ff;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Segoe UI', sans-serif;
+      padding: 40px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .title-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .logo-icon {
+      height: 100px;
+      filter: drop-shadow(0 0 6px #00ffff);
+    }
+
+    .secodian-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3.5rem;
+      letter-spacing: 0.25rem;
+      margin: 0;
+      font-weight: 700;
+      text-align: center;
+      background: linear-gradient(90deg, #00f0ff, #0077ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 8px rgba(0, 255, 255, 0.5),
+                   0 0 16px rgba(0, 119, 255, 0.4);
+    }
+
+    .back-button {
+      background-color: var(--highlight);
+      color: white;
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-block;
+      text-decoration: none;
+      margin-bottom: 20px;
+      margin-left: 1175px;
+    }
+
+    .policy-section {
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+      background: var(--container-bg);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: var(--highlight);
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="title-wrapper">
+    <img src="{{ url_for('static', filename='images/ChatGPT_Image_Jun_3__2025__08_28_02_PM-removebg-preview.png') }}" alt="Logo" class="logo-icon">
+    <h1 class="secodian-title">SECODIAN</h1>
+  </div>
+
+  <a href="{{ url_for('index') }}" class="back-button">⬅ Back to Home</a>
+
+  <div class="policy-section">
+    <h2>Personal Information</h2>
+    <p>Secodian is committed to protecting your privacy online. We strive to provide the best experience on our site by gathering personal data (such as your name, email, and location) that helps us tailor the platform to your preferences. We do not sell, rent, or share your personal information with third parties.</p>
+
+    <h2>IP Address and Logging</h2>
+    <p>We use your IP address to analyze site traffic and user trends, such as page visits and download behavior, which helps us improve your experience.</p>
+
+    <h2>Third-Party Advertising</h2>
+    <p>Secodian may display ads from third-party networks. These advertisers may use cookies (excluding personally identifiable information) to tailor ads based on your browsing history across different sites.</p>
+
+    <h2>Cookies</h2>
+    <p>We use cookies to remember user preferences and enhance your browsing experience. Cookies help us display relevant content and improve overall performance. You can disable cookies through your browser settings at any time.</p>
+
+    <h2>Third-Party Cookies</h2>
+    <p>Advertisers and external services used by Secodian may store cookies on your browser. These cookies help deliver personalized ads and measure campaign effectiveness.</p>
+
+    <h2>Disclaimer</h2>
+    <p>Secodian is a free informational tool. We are not liable for data loss, performance issues, or any business consequences related to use of our platform. All content is provided as-is without warranties. Secodian does not guarantee the absence of errors, downtime, or inaccuracies.</p>
+
+    <h2>Liability</h2>
+    <p>If we are notified of intellectual property violations, we act promptly to investigate and remove infringing material. Secodian is a nonprofit platform; ad revenue is used solely to support server maintenance. We do not permit redistribution or reuse of our original content on third-party platforms.</p>
+  </div>
+
+  <script>
+    if (localStorage.getItem("darkMode") === "true") {
+      document.body.classList.add("dark-mode");
+    }
+  </script>
+</body>
+</html>
