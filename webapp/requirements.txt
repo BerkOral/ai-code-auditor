@@ -6,4 +6,6 @@ openai
 python-dotenv
 rich
 gunicorn
+Flask-Migrate
+
 
