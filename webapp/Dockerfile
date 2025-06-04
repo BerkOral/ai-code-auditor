@@ -15,15 +15,14 @@ RUN curl -sS https://getcomposer.org/installer | php && \
 
 RUN composer global require phpstan/phpstan
 
-ENV PATH="/root/.composer/vendor/bin:${PATH}"
+# This is the modern Composer global bin dir:
+ENV PATH="/root/.config/composer/vendor/bin:${PATH}"
 
 COPY requirements.txt ./
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY . .
 
 EXPOSE 10000
 
 CMD ["gunicorn", "--bind", "0.0.0.0:10000", "app:app"]
-
